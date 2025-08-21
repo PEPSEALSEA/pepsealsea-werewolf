@@ -206,9 +206,24 @@
             </div>
         </div>
 
+        <!-- Day Voting -->
+        <div class="card" id="dayVoting" style="display: none;">
+            <h2 class="section-title">☀️ การโหวตตอนเช้า</h2>
+            <div id="votingContent">
+                <div class="form-group">
+                    <label>เลือกคนที่จะถูกโหวตออก:</label>
+                    <select id="voteTarget">
+                        <option value="">เลือกคนที่จะโหวตออก</option>
+                    </select>
+                    <button onclick="processVote()" style="background: #e53e3e;">โหวตออก</button>
+                    <button onclick="skipVote()" style="background: #a0aec0;">ไม่โหวตใครออก</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Results -->
         <div id="nightResults" class="results" style="display: none;">
-            <h3>📊 ผลลัพธ์ตอนเช้า:</h3>
+            <h3>📊 ผลลัพธ์:</h3>
             <div id="resultsContent"></div>
         </div>
 
@@ -220,10 +235,11 @@
         let players = [];
         let gameState = {
             day: 1,
-            phase: 'setup',
+            phase: 'setup', // 'setup', 'night', 'day', 'voting'
             nightActions: {},
             currentNightStep: 0,
-            nightSteps: []
+            nightSteps: [],
+            nightResults: []
         };
 
         const roles = {
@@ -581,22 +597,101 @@
                 }
             }
 
-            // Process Baby Wolf transformation
+            // Store night results and move to day phase
+            gameState.nightResults = results;
+            gameState.phase = 'day';
+            
+            // Show day phase with voting
+            showDayPhase();
+        }
+
+        function showDayPhase() {
+            // Hide night phase
+            const nightCard = document.querySelector('.night-actions');
+            nightCard.style.display = 'none';
+            
+            // Show day voting
+            const dayVoting = document.getElementById('dayVoting');
+            dayVoting.style.display = 'block';
+            
+            // Update vote options
+            const voteSelect = document.getElementById('voteTarget');
+            const alivePlayers = players.filter(p => p.alive);
+            voteSelect.innerHTML = '<option value="">เลือกคนที่จะโหวตออก</option>' + 
+                alivePlayers.map(p => `<option value="${p.name}">${p.name}</option>`).join('');
+        }
+
+        function processVote() {
+            const voteTarget = document.getElementById('voteTarget').value;
+            
+            if (voteTarget) {
+                const targetPlayer = players.find(p => p.name === voteTarget);
+                if (targetPlayer) {
+                    targetPlayer.alive = false;
+                    gameState.nightResults.push(`🗳️ ${voteTarget} ถูกโหวตออกจากเกม`);
+                    
+                    // Process Revenant revenge if voted out
+                    if (targetPlayer.role === 'Revenant') {
+                        const revenge = prompt(`Revenant ${targetPlayer.name} ถูกโหวตออก! เลือกคนที่จะให้ตายตามไปด้วย:`);
+                        if (revenge) {
+                            const revengeTarget = players.find(p => p.name === revenge && p.alive);
+                            if (revengeTarget) {
+                                revengeTarget.alive = false;
+                                gameState.nightResults.push(`⚰️ Revenant ${targetPlayer.name} ลากเอา ${revenge} ตายไปด้วย`);
+                            }
+                        }
+                    }
+                    
+                    // Check if voted player was a Wolf - trigger Baby Wolf transformation
+                    if (targetPlayer.role === 'Wolf') {
+                        const babyWolves = players.filter(p => p.role === 'Babywolf' && p.alive);
+                        babyWolves.forEach(baby => {
+                            baby.role = 'Wolf';
+                            gameState.nightResults.push(`🐺 ${baby.name} กลายเป็น Wolf (หมาป่าถูกโหวตออก)`);
+                        });
+                    }
+                }
+            } else {
+                gameState.nightResults.push(`🗳️ ไม่มีใครถูกโหวตออกในวันนี้`);
+            }
+            
+            finalizeDayPhase();
+        }
+
+        function skipVote() {
+            gameState.nightResults.push(`🗳️ ไม่มีใครถูกโหวตออกในวันนี้`);
+            finalizeDayPhase();
+        }
+
+        function finalizeDayPhase() {
+            // Process Baby Wolf transformation from night deaths too
             const wolves = players.filter(p => p.role === 'Wolf');
             const deadWolves = wolves.filter(w => !w.alive);
             if (deadWolves.length > 0) {
                 const babyWolves = players.filter(p => p.role === 'Babywolf' && p.alive);
                 babyWolves.forEach(baby => {
-                    baby.role = 'Wolf';
-                    results.push(`🐺 ${baby.name} กลายเป็น Wolf`);
+                    // Only transform if not already transformed
+                    if (baby.role === 'Babywolf') {
+                        baby.role = 'Wolf';
+                        gameState.nightResults.push(`🐺 ${baby.name} กลายเป็น Wolf`);
+                    }
                 });
             }
 
-            // Display results and reset
-            showNightResults(results);
+            // Show all results
+            showAllResults(gameState.nightResults);
+            
+            // Reset for next round
             gameState.phase = 'setup';
             gameState.day++;
-
+            
+            // Hide day voting
+            document.getElementById('dayVoting').style.display = 'none';
+            
+            // Show night phase again
+            const nightCard = document.querySelector('.night-actions');
+            nightCard.style.display = 'block';
+            
             const container = document.getElementById('nightPhaseContent');
             container.innerHTML = '<button onclick="startNightPhase()" style="background: #48bb78; font-size: 1.2rem;">เริ่มคืนใหม่</button>';
 
@@ -604,15 +699,15 @@
             checkWinCondition();
         }
 
-        function showNightResults(results) {
+        function showAllResults(results) {
             const resultsContainer = document.getElementById('resultsContent');
-            resultsContainer.innerHTML = results.length > 0 ? results.join('<br>') : 'ไม่มีเหตุการณ์เกิดขึ้นในคืนนี้';
+            resultsContainer.innerHTML = results.length > 0 ? results.join('<br>') : 'ไม่มีเหตุการณ์เกิดขึ้น';
             document.getElementById('nightResults').style.display = 'block';
             
-            // Auto hide results after 10 seconds
+            // Auto hide results after 15 seconds
             setTimeout(() => {
                 document.getElementById('nightResults').style.display = 'none';
-            }, 10000);
+            }, 15000);
         }
 
         function checkWinCondition() {
