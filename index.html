@@ -1,45 +1,44 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Werewolf Game Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Werewolf Game Admin</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
-            font-family: 'Mali', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Mali', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #333;
         }
-
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
-
+        
         .header {
             text-align: center;
             color: white;
             margin-bottom: 30px;
         }
-
+        
         .card {
             background: white;
             border-radius: 15px;
             padding: 25px;
             margin-bottom: 20px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
-
+        
         .section-title {
             font-size: 1.5rem;
             margin-bottom: 20px;
@@ -47,21 +46,19 @@
             border-bottom: 2px solid #e2e8f0;
             padding-bottom: 10px;
         }
-
+        
         .form-group {
             margin-bottom: 15px;
         }
-
+        
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: 600;
             color: #4a5568;
         }
-
-        input,
-        select,
-        button {
+        
+        input, select, button {
             width: 100%;
             padding: 12px;
             border: 2px solid #e2e8f0;
@@ -69,14 +66,13 @@
             font-size: 16px;
             transition: all 0.3s ease;
         }
-
-        input:focus,
-        select:focus {
+        
+        input:focus, select:focus {
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
-
+        
         button {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -86,22 +82,22 @@
             font-family: 'Mali', sans-serif;
             margin-top: 10px;
         }
-
+        
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
-
+        
         .btn-danger {
             background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
         }
-
+        
         .player-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 15px;
         }
-
+        
         .player-card {
             background: #f7fafc;
             border: 2px solid #e2e8f0;
@@ -109,24 +105,24 @@
             padding: 15px;
             transition: all 0.3s ease;
         }
-
+        
         .player-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-
+        
         .player-card.dead {
             background: #fed7d7;
             border-color: #fc8181;
             opacity: 0.7;
         }
-
+        
         .player-name {
             font-size: 1.2rem;
             font-weight: 600;
             margin-bottom: 8px;
         }
-
+        
         .player-role {
             display: inline-block;
             padding: 4px 12px;
@@ -135,34 +131,23 @@
             font-weight: 600;
             margin-bottom: 8px;
         }
-
-        .good {
-            background: #c6f6d5;
-            color: #276749;
-        }
-
-        .evil {
-            background: #fed7d7;
-            color: #c53030;
-        }
-
-        .neutral {
-            background: #fef5e7;
-            color: #d69e2e;
-        }
-
+        
+        .good { background: #c6f6d5; color: #276749; }
+        .evil { background: #fed7d7; color: #c53030; }
+        .neutral { background: #fef5e7; color: #d69e2e; }
+        
         .night-actions {
             background: #2d3748;
             color: white;
         }
-
+        
         .action-group {
             margin-bottom: 20px;
             padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.1);
             border-radius: 10px;
         }
-
+        
         .results {
             background: #f0fff4;
             border-left: 4px solid #48bb78;
@@ -170,29 +155,18 @@
             border-radius: 8px;
             margin-top: 20px;
         }
-
+        
         .game-status {
             text-align: center;
             padding: 20px;
             font-size: 1.3rem;
             font-weight: 600;
         }
-
-        .win-good {
-            background: #c6f6d5;
-            color: #276749;
-        }
-
-        .win-evil {
-            background: #fed7d7;
-            color: #c53030;
-        }
-
-        .win-neutral {
-            background: #fef5e7;
-            color: #d69e2e;
-        }
-
+        
+        .win-good { background: #c6f6d5; color: #276749; }
+        .win-evil { background: #fed7d7; color: #c53030; }
+        .win-neutral { background: #fef5e7; color: #d69e2e; }
+        
         @media (max-width: 768px) {
             .player-list {
                 grid-template-columns: 1fr;
@@ -200,7 +174,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <div class="header">
@@ -229,8 +202,7 @@
         <div class="card night-actions">
             <h2 class="section-title" style="color: white;">🌙 การกระทำตอนกลางคืน</h2>
             <div id="nightPhaseContent">
-                <button onclick="startNightPhase()"
-                    style="background: #48bb78; font-size: 1.2rem;">เริ่มคืนใหม่</button>
+                <button onclick="startNightPhase()" style="background: #48bb78; font-size: 1.2rem;">เริ่มคืนใหม่</button>
             </div>
         </div>
 
@@ -317,16 +289,16 @@
             players.forEach((player, index) => {
                 const playerCard = document.createElement('div');
                 playerCard.className = `player-card ${!player.alive ? 'dead' : ''}`;
-
+                
                 playerCard.innerHTML = `
                     <div class="player-name">${player.name} ${!player.alive ? '💀' : ''}</div>
                     <div class="player-role ${roles[player.role].type}">${player.role}</div>
                     <div style="font-size: 0.9em; color: #666; margin-bottom: 10px;">${roles[player.role].description}</div>
-                    ${player.role === 'Collector' ? `<div>Souls: ${player.souls}/${Math.ceil(players.length / 2)}</div>` : ''}
+                    ${player.role === 'Collector' ? `<div>Souls: ${player.souls}/${Math.ceil(players.length/2)}</div>` : ''}
                     <select onchange="updatePlayerRole(${index}, this.value)" ${!player.alive ? 'disabled' : ''}>
-                        ${Object.keys(roles).map(role =>
-                    `<option value="${role}" ${player.role === role ? 'selected' : ''}>${role}</option>`
-                ).join('')}
+                        ${Object.keys(roles).map(role => 
+                            `<option value="${role}" ${player.role === role ? 'selected' : ''}>${role}</option>`
+                        ).join('')}
                     </select>
                     <button class="btn-danger" onclick="removePlayer(${index})" style="margin-top: 10px; width: 100%;">ลบผู้เล่น</button>
                 `;
@@ -395,19 +367,19 @@
             gameState.currentNightStep = 0;
             gameState.nightActions = {};
             updateNightActions();
-
+            
             if (gameState.nightSteps.length === 0) {
                 // No night actions, skip to results
                 processNightResults();
                 return;
             }
-
+            
             showNextNightStep();
         }
 
         function showNextNightStep() {
             const container = document.getElementById('nightPhaseContent');
-
+            
             if (gameState.currentNightStep >= gameState.nightSteps.length) {
                 // All steps done, process results
                 processNightResults();
@@ -438,7 +410,7 @@
                     </select>
                 `;
             } else if (currentStep.type === 'bodyguard') {
-                const availableTargets = alivePlayers.filter(p =>
+                const availableTargets = alivePlayers.filter(p => 
                     !currentStep.player.protected.includes(p.name)
                 ).map(p => `<option value="${p.name}">${p.name}</option>`).join('');
                 content += `
@@ -457,12 +429,12 @@
                     </select>
                 `;
             } else if (currentStep.type === 'collector') {
-                const availableTargets = alivePlayers.filter(p =>
-                    p.name !== currentStep.player.name &&
+                const availableTargets = alivePlayers.filter(p => 
+                    p.name !== currentStep.player.name && 
                     !currentStep.player.checkedPlayers.includes(p.name)
                 ).map(p => `<option value="${p.name}">${p.name}</option>`).join('');
                 content += `
-                    <div style="margin-bottom: 15px;">Souls ปัจจุบัน: ${currentStep.player.souls}/${Math.ceil(players.length / 2)}</div>
+                    <div style="margin-bottom: 15px;">Souls ปัจจุบัน: ${currentStep.player.souls}/${Math.ceil(players.length/2)}</div>
                     <select id="currentAction" style="margin-bottom: 15px;">
                         <option value="">เลือกคนที่จะดูดวิญญาณ</option>
                         ${availableTargets}
@@ -482,7 +454,7 @@
         function confirmAction() {
             const action = document.getElementById('currentAction')?.value;
             const currentStep = gameState.nightSteps[gameState.currentNightStep];
-
+            
             if (action) {
                 gameState.nightActions[gameState.currentNightStep] = {
                     type: currentStep.type,
@@ -512,14 +484,14 @@
                     }
                 }
             }
-
+            
             nextNightStep();
         }
 
         function showImmediateResult(message) {
             const container = document.getElementById('nightPhaseContent');
             const currentStep = gameState.nightSteps[gameState.currentNightStep];
-
+            
             const resultHTML = `
                 <div style="text-align: center; margin-bottom: 20px;">
                     <h3>${currentStep.title}</h3>
@@ -531,7 +503,7 @@
                     <button onclick="continueAfterResult()" style="background: #48bb78; width: 100%;">ดำเนินการต่อ</button>
                 </div>
             `;
-
+            
             container.innerHTML = resultHTML;
         }
 
@@ -586,15 +558,8 @@
                 results.push(`💀 ${killedByWolf.name} ถูกหมาป่าฆ่า`);
             }
 
-            // Process Oracle Vision (already shown immediately, so just record)
-            const oracleActions = Object.values(gameState.nightActions).filter(a => a.type === 'oracle');
-            oracleActions.forEach(action => {
-                if (action.target) {
-                    // No need to add to results since it was shown in real-time
-                }
-            });
-
-            // Process Collector Soul Collection
+            // Process Oracle Vision (already shown immediately)
+            // Process Collector Soul Collection (handle the actual effects)
             const collectorActions = Object.values(gameState.nightActions).filter(a => a.type === 'collector');
             collectorActions.forEach(action => {
                 if (action.target) {
@@ -603,10 +568,10 @@
                         action.player.checkedPlayers.push(action.target);
                         if (targetPlayer.role === 'Wolf') {
                             action.player.alive = false;
-                            // Already shown in immediate result
+                            results.push(`💀 Collector ${action.player.name} ตายจากการดูดวิญญาณหมาป่า`);
                         } else {
                             action.player.souls++;
-                            // Already shown in immediate result
+                            // Soul collection was already shown immediately
                         }
                     }
                 }
@@ -624,52 +589,92 @@
                 }
             }
 
-            // Check for Wolf deaths and transform Babywolf
-            const deadWolves = players.filter(p => p.role === 'Wolf' && !p.alive);
-            if (deadWolves.length > 0) {
+            // Check if any dead collectors were Revenant
+            const deadCollectors = collectorActions.filter(action => {
+                const targetPlayer = players.find(p => p.name === action.target);
+                return targetPlayer && targetPlayer.role === 'Wolf' && action.player.role === 'Revenant';
+            });
+
+            deadCollectors.forEach(action => {
+                const revenge = prompt(`Revenant ${action.player.name} ตายจาก Collector! เลือกคนที่จะให้ตายตามไปด้วย:`);
+                if (revenge) {
+                    const revengeTarget = players.find(p => p.name === revenge && p.alive);
+                    if (revengeTarget) {
+                        revengeTarget.alive = false;
+                        results.push(`⚰️ Revenant ${action.player.name} ลากเอา ${revenge} ตายไปด้วย`);
+                    }
+                }
+            });
+
+            // Process Baby Wolf transformation from NIGHT deaths
+            const wolvesBeforeNight = players.filter(p => p.role === 'Wolf');
+            const aliveWolvesAfterNight = wolvesBeforeNight.filter(w => w.alive);
+            
+            if (aliveWolvesAfterNight.length === 0 && wolvesBeforeNight.length > 0) {
                 const babyWolves = players.filter(p => p.role === 'Babywolf' && p.alive);
                 babyWolves.forEach(baby => {
                     baby.role = 'Wolf';
-                    results.push(`🐺 ${baby.name} กลายเป็น Wolf (หมาป่าตายในตอนกลางคืน)`);
+                    results.push(`🐺 ${baby.name} กลายเป็น Wolf (หมาป่าตายจากกลางคืน)`);
                 });
             }
 
-            // Store night results and move to day phase
+            // Store night results and show dawn phase
             gameState.nightResults = results;
-            gameState.phase = 'day';
-
-            // Show day phase with voting
-            showDayPhase();
+            showDawnResults(results);
         }
 
-        function showDayPhase() {
+        function showDawnResults(results) {
+            // Show night results first
+            const resultsContainer = document.getElementById('resultsContent');
+            resultsContainer.innerHTML = `<h4>🌅 รุ่งสาง - ผลลัพธ์จากกลางคืน:</h4>` + 
+                (results.length > 0 ? results.join('<br>') : 'ไม่มีเหตุการณ์เกิดขึ้นในคืนนี้');
+            document.getElementById('nightResults').style.display = 'block';
+
+            // Show continue button to proceed to day voting
+            const continueButton = document.createElement('div');
+            continueButton.innerHTML = `
+                <div style="text-align: center; margin-top: 20px;">
+                    <button onclick="startDayPhase()" style="background: #f6ad55; padding: 15px 30px; font-size: 1.1rem;">
+                        ☀️ ไปสู่การโหวตตอนเช้า
+                    </button>
+                </div>
+            `;
+            document.getElementById('resultsContent').appendChild(continueButton);
+
+            updatePlayerList();
+            checkWinCondition();
+        }
+
+        function startDayPhase() {
+            // Hide dawn results
+            document.getElementById('nightResults').style.display = 'none';
+            
             // Hide night phase
             const nightCard = document.querySelector('.night-actions');
             nightCard.style.display = 'none';
-
+            
             // Show day voting
             const dayVoting = document.getElementById('dayVoting');
             dayVoting.style.display = 'block';
-
-            // Update vote options with only alive players
+            
+            // Update vote options
             const voteSelect = document.getElementById('voteTarget');
-            const alivePlayers = players.filter(p => p.alive); // Ensure only alive players are included
-            voteSelect.innerHTML = '<option value="">เลือกคนที่จะโหวตออก</option>' +
+            const alivePlayers = players.filter(p => p.alive);
+            voteSelect.innerHTML = '<option value="">เลือกคนที่จะโหวตออก</option>' + 
                 alivePlayers.map(p => `<option value="${p.name}">${p.name}</option>`).join('');
-
-            // Optional: Log to verify alive players
-            console.log('Alive players for voting:', alivePlayers.map(p => p.name));
         }
 
         function processVote() {
             const voteTarget = document.getElementById('voteTarget').value;
-
+            const voteResults = [];
+            
             if (voteTarget) {
                 const targetPlayer = players.find(p => p.name === voteTarget);
                 if (targetPlayer) {
+                    const wasWolf = targetPlayer.role === 'Wolf';
                     targetPlayer.alive = false;
-                    gameState.nightResults.push(`🗳️ ${voteTarget} ถูกโหวตออกจากเกม`);
-
+                    voteResults.push(`🗳️ ${voteTarget} ถูกโหวตออกจากเกม`);
+                    
                     // Process Revenant revenge if voted out
                     if (targetPlayer.role === 'Revenant') {
                         const revenge = prompt(`Revenant ${targetPlayer.name} ถูกโหวตออก! เลือกคนที่จะให้ตายตามไปด้วย:`);
@@ -677,61 +682,58 @@
                             const revengeTarget = players.find(p => p.name === revenge && p.alive);
                             if (revengeTarget) {
                                 revengeTarget.alive = false;
-                                gameState.nightResults.push(`⚰️ Revenant ${targetPlayer.name} ลากเอา ${revenge} ตายไปด้วย`);
+                                voteResults.push(`⚰️ Revenant ${targetPlayer.name} ลากเอา ${revenge} ตายไปด้วย`);
                             }
                         }
                     }
-
+                    
                     // Check if voted player was a Wolf - trigger Baby Wolf transformation
-                    if (targetPlayer.role === 'Wolf') {
-                        const babyWolves = players.filter(p => p.role === 'Babywolf' && p.alive);
-                        babyWolves.forEach(baby => {
-                            baby.role = 'Wolf';
-                            gameState.nightResults.push(`🐺 ${baby.name} กลายเป็น Wolf (หมาป่าถูกโหวตออก)`);
-                        });
+                    if (wasWolf) {
+                        const remainingWolves = players.filter(p => p.role === 'Wolf' && p.alive);
+                        if (remainingWolves.length === 0) {
+                            const babyWolves = players.filter(p => p.role === 'Babywolf' && p.alive);
+                            babyWolves.forEach(baby => {
+                                baby.role = 'Wolf';
+                                voteResults.push(`🐺 ${baby.name} กลายเป็น Wolf (หมาป่าถูกโหวตออก)`);
+                            });
+                        }
                     }
                 }
             } else {
-                gameState.nightResults.push(`🗳️ ไม่มีใครถูกโหวตออกในวันนี้`);
+                voteResults.push(`🗳️ ไม่มีใครถูกโหวตออกในวันนี้`);
             }
-
-            finalizeDayPhase();
+            
+            finalizeDayPhase(voteResults);
         }
 
         function skipVote() {
-            gameState.nightResults.push(`🗳️ ไม่มีใครถูกโหวตออกในวันนี้`);
-            finalizeDayPhase();
+            const voteResults = [`🗳️ ไม่มีใครถูกโหวตออกในวันนี้`];
+            finalizeDayPhase(voteResults);
         }
 
-        function finalizeDayPhase() {
-            // Process voting results (already handled in processVote)
-
-            // Check for Wolf deaths from voting and transform Babywolf (if not already transformed)
-            const deadWolves = players.filter(p => p.role === 'Wolf' && !p.alive);
-            if (deadWolves.length > 0) {
-                const babyWolves = players.filter(p => p.role === 'Babywolf' && p.alive);
-                babyWolves.forEach(baby => {
-                    if (baby.role === 'Babywolf') { // Only transform if still Babywolf
-                        baby.role = 'Wolf';
-                        gameState.nightResults.push(`🐺 ${baby.name} กลายเป็น Wolf (หมาป่าถูกโหวตออก)`);
-                    }
-                });
+        function finalizeDayPhase(voteResults) {
+            // Combine night and day results
+            const allResults = [...gameState.nightResults];
+            
+            if (voteResults.length > 0) {
+                allResults.push(`<h4>☀️ ผลการโหวตตอนเช้า:</h4>`);
+                allResults.push(...voteResults);
             }
 
             // Show all results
-            showAllResults(gameState.nightResults);
-
+            showFinalResults(allResults);
+            
             // Reset for next round
             gameState.phase = 'setup';
             gameState.day++;
-
+            
             // Hide day voting
             document.getElementById('dayVoting').style.display = 'none';
-
+            
             // Show night phase again
             const nightCard = document.querySelector('.night-actions');
             nightCard.style.display = 'block';
-
+            
             const container = document.getElementById('nightPhaseContent');
             container.innerHTML = '<button onclick="startNightPhase()" style="background: #48bb78; font-size: 1.2rem;">เริ่มคืนใหม่</button>';
 
@@ -739,11 +741,11 @@
             checkWinCondition();
         }
 
-        function showAllResults(results) {
+        function showFinalResults(results) {
             const resultsContainer = document.getElementById('resultsContent');
             resultsContainer.innerHTML = results.length > 0 ? results.join('<br>') : 'ไม่มีเหตุการณ์เกิดขึ้น';
             document.getElementById('nightResults').style.display = 'block';
-
+            
             // Auto hide results after 15 seconds
             setTimeout(() => {
                 document.getElementById('nightResults').style.display = 'none';
@@ -755,32 +757,32 @@
             const aliveWolves = alivePlayers.filter(p => p.role === 'Wolf');
             const aliveGood = alivePlayers.filter(p => roles[p.role].type === 'good');
             const collectors = alivePlayers.filter(p => p.role === 'Collector');
-
+            
             const statusDiv = document.getElementById('gameStatus');
-
+            
             // Check Collector win
             for (let collector of collectors) {
-                if (collector.souls >= Math.ceil(players.length / 2)) {
+                if (collector.souls >= Math.ceil(players.length/2)) {
                     statusDiv.innerHTML = `🏆 ${collector.name} (Collector) ชนะเกม! ได้ครบ ${collector.souls} souls`;
                     statusDiv.className = 'game-status win-neutral';
                     return;
                 }
             }
-
+            
             // Check Wolf win
             if (aliveWolves.length >= aliveGood.length && aliveWolves.length > 0) {
                 statusDiv.innerHTML = '🐺 หมาป่าชนะ!';
                 statusDiv.className = 'game-status win-evil';
                 return;
             }
-
+            
             // Check Good win
             if (aliveWolves.length === 0) {
                 statusDiv.innerHTML = '👑 คนดีชนะ!';
                 statusDiv.className = 'game-status win-good';
                 return;
             }
-
+            
             statusDiv.innerHTML = `🎯 เกมดำเนินต่อ - วัน ${gameState.day}`;
             statusDiv.className = 'game-status';
         }
@@ -789,5 +791,4 @@
         updatePlayerList();
     </script>
 </body>
-
 </html>
